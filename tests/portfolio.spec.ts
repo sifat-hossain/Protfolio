@@ -89,7 +89,7 @@ test('navigation works and mobile menu closes on selection and Escape', async ({
   await expect(page.getByRole('heading', { level: 1 })).toBeInViewport()
 })
 
-test('CV download is a real PDF and social/contact links use the CV details', async ({ page, request }) => {
+test('CV download is a real PDF and social/contact links use the profile details', async ({ page, request }) => {
   await page.goto('/')
   const response = await request.get('/MD-Sifat-Hossain-CV.pdf')
   expect(response.ok()).toBe(true)
@@ -98,7 +98,8 @@ test('CV download is a real PDF and social/contact links use the CV details', as
   await page.getByRole('link', { name: 'Resume', exact: true }).click()
   const download = await downloadPromise
   expect(download.suggestedFilename()).toBe('MD-Sifat-Hossain-CV.pdf')
-  await expect(page.getByRole('link', { name: 'Say hello' })).toHaveAttribute('href', 'mailto:15103152@iubat.edu')
+  await expect(page.getByRole('link', { name: 'Say hello' })).toHaveAttribute('href', 'mailto:sifat.hossain3152@gmail.com')
+  await expect(page.getByRole('link', { name: 'sifat.hossain3152@gmail.com', exact: true })).toHaveAttribute('href', 'mailto:sifat.hossain3152@gmail.com')
   await expect(page.getByRole('link', { name: 'GitHub (opens in new tab)', exact: true }).first()).toHaveAttribute('href', 'https://github.com/sifat-hossain')
   await expect(page.getByRole('link', { name: 'LinkedIn (opens in new tab)', exact: true }).first()).toHaveAttribute('href', 'https://www.linkedin.com/in/md-sifat-hossain-a8b534211/')
 })
@@ -112,7 +113,7 @@ test('copy email reports success and clipboard failures honestly', async ({ page
   })
   await page.getByRole('button', { name: 'Copy email address' }).click()
   await expect(page.getByRole('status')).toHaveText('Email address copied.')
-  expect(await page.locator('html').getAttribute('data-copied-email')).toBe('15103152@iubat.edu')
+  expect(await page.locator('html').getAttribute('data-copied-email')).toBe('sifat.hossain3152@gmail.com')
   await page.evaluate(() => {
     Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: async () => {
       throw new Error('Clipboard unavailable')

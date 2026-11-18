@@ -6,7 +6,7 @@ import {
   Menu, Network, Palette, Server, Terminal, TrainFront, Truck, X,
 } from 'lucide-react'
 
-const email = '15103152@iubat.edu'
+const email = 'sifat.hossain3152@gmail.com'
 const cvUrl = '/MD-Sifat-Hossain-CV.pdf'
 const themeStorageKey = 'portfolio-theme'
 const themes = [
