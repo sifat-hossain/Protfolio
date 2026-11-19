@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import {
   ArrowDown, ArrowDownToLine, ArrowRight, ArrowUpRight, Boxes, Braces,
   Check, Cloud, Code2, Copy, Database,
@@ -189,6 +189,31 @@ function App() {
   })
   const copyTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
   const menuButton = useRef<HTMLButtonElement>(null)
+  const projectGrid = useRef<HTMLDivElement>(null)
+
+  useLayoutEffect(() => {
+    const previews = Array.from(projectGrid.current!.querySelectorAll<HTMLElement>('.project-preview'))
+    const contents = previews.map((preview) => preview.querySelector<HTMLElement>('.project-preview-content')!)
+    const matchCollapsedHeights = () => {
+      // Measure only the preview, so opening details never changes a neighbor's height.
+      const measurements = previews.map((preview, index) => ({
+        preview,
+        row: Math.round(preview.getBoundingClientRect().top),
+        height: contents[index].getBoundingClientRect().height,
+      }))
+      const rowHeights = new Map<number, number>()
+      for (const { row, height } of measurements) {
+        rowHeights.set(row, Math.max(rowHeights.get(row) ?? 0, height))
+      }
+      for (const { preview, row } of measurements) {
+        preview.style.minHeight = `${rowHeights.get(row)}px`
+      }
+    }
+    matchCollapsedHeights()
+    const observer = new ResizeObserver(matchCollapsedHeights)
+    contents.forEach((content) => observer.observe(content))
+    return () => observer.disconnect()
+  }, [filter])
 
   useEffect(() => {
     if (theme === 'dark') delete document.documentElement.dataset.theme
@@ -281,12 +306,14 @@ function App() {
           <div className="container">
             <div className="section-topline"><div className="section-heading"><span className="section-index">02 / SELECTED WORK</span><h2>Real challenges.<br />Purpose-built solutions<span>.</span></h2></div><p>A selection of professional projects<br className="desktop-break" /> I've worked on along the way.</p></div>
             <div className="project-filters" role="group" aria-label="Filter projects">{['All projects', 'Backend & cloud', 'Enterprise apps'].map((item) => <button key={item} type="button" aria-pressed={filter === item} onClick={() => setFilter(item)}>{item}{item === 'All projects' && <span>05</span>}</button>)}</div>
-            <div className="project-grid">
+            <div className="project-grid" ref={projectGrid}>
               {visibleProjects.map((project) => <article key={project.name} className={`project-card ${project.featured ? 'featured-project' : 'compact-project'}`}>
-                {project.featured ? <ProjectVisual type={project.visual} /> : <span className="project-icon"><project.icon size={23} /></span>}
-                <div className="project-body"><span className="project-type">{project.type}</span><h3>{project.name}</h3><p>{project.summary}</p><div className="tags">{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
-                  <details className="project-details"><summary>Project overview <span className="details-plus">+</span></summary><div><strong>{project.company}</strong><p>{project.description}</p><p>{project.detail}</p></div></details>
+                <div className="project-preview"><div className="project-preview-content">
+                  {project.featured ? <ProjectVisual type={project.visual} /> : <span className="project-icon"><project.icon size={23} /></span>}
+                  <div className="project-body"><span className="project-type">{project.type}</span><h3>{project.name}</h3><p>{project.summary}</p><div className="tags">{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div></div>
                 </div>
+                </div>
+                <details className="project-details"><summary>Project overview <span className="details-plus">+</span></summary><div><strong>{project.company}</strong><p>{project.description}</p><p>{project.detail}</p></div></details>
               </article>)}
             </div>
             <p className="work-note"><GitBranch size={14} /> Professional work, built with teams. Descriptions reflect my CV; proprietary code is not shared.</p>

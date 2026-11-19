@@ -55,8 +55,14 @@ test('expanding a project does not stretch or open its neighbor', async ({ page 
   await page.emulateMedia({ reducedMotion: 'reduce' })
   const logistics = page.locator('.project-card').filter({ has: page.getByRole('heading', { name: 'Logistics Delivery System', exact: true }) })
   const ital = page.locator('.project-card').filter({ has: page.getByRole('heading', { name: 'ITAL', exact: true }) })
-  for (const width of [390, 768, 1440]) {
+  for (const width of [390, 768, 1024, 1440, 768]) {
     await page.setViewportSize({ width, height: 900 })
+    if (width > 640) {
+      await expect.poll(async () => {
+        const heights = await page.locator('.featured-project').evaluateAll((cards) => cards.map((card) => card.getBoundingClientRect().height))
+        return Math.abs(heights[0] - heights[1])
+      }).toBeLessThan(1)
+    }
     const logisticsHeight = await logistics.evaluate((card) => card.getBoundingClientRect().height)
     const italHeight = await ital.evaluate((card) => card.getBoundingClientRect().height)
     await logistics.locator('summary').click()
@@ -69,6 +75,12 @@ test('expanding a project does not stretch or open its neighbor', async ({ page 
     expect(await logistics.evaluate((card) => card.getBoundingClientRect().height)).toBeCloseTo(logisticsHeight, 0)
     await expect(logistics.locator('details')).not.toHaveAttribute('open')
     await ital.locator('summary').click()
+    if (width > 640) {
+      await expect.poll(async () => Math.abs(
+        await logistics.evaluate((card) => card.getBoundingClientRect().height) -
+        await ital.evaluate((card) => card.getBoundingClientRect().height),
+      )).toBeLessThan(1)
+    }
   }
 })
 

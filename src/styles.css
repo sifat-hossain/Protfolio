@@ -61,6 +61,27 @@
   align-items: start;
 }
 
+.project-preview-content {
+  display: flow-root;
+}
+
+.project-card > .project-details {
+  margin: 0 25px 25px;
+}
+
+.compact-project > .project-details {
+  margin: 0 24px 24px;
+}
+
+@media (max-width: 1100px) {
+  .project-card > .project-details { margin: 0 22px 22px; }
+  .compact-project > .project-details { margin: 0 20px 24px; }
+}
+
+@media (max-width: 640px) {
+  .project-card > .project-details { margin: 0 24px 24px; }
+}
+
 .work-section .section-index,
 .work-section .project-type {
   font-size: 12px;
