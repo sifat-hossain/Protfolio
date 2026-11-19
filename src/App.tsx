@@ -24,7 +24,7 @@ const navigation = [
 
 const projects = [
   {
-    name: 'Xcalibur Connect', category: 'Backend & cloud', company: 'Microsec International Ltd.',
+    name: 'Logistics Delivery System', category: 'Backend & Cloud', company: 'Microsec International Ltd.',
     type: 'LOGISTICS & DELIVERY', icon: Truck, featured: true, visual: 'logistics',
     summary: 'Connecting construction materials, teams, and delivery locations.',
     description: 'A construction materials delivery coordination platform supporting operations across multiple locations.',
@@ -32,15 +32,15 @@ const projects = [
     tags: ['.NET Core', 'Azure App Service', 'Azure Pipelines (CI/CD)', 'Azure Service Bus', 'GraphQL', 'SQL Server'],
   },
   {
-    name: 'ITAL', category: 'Backend & cloud', company: 'Microsec International Ltd.',
-    type: 'RAILWAY & TRANSPORT', icon: TrainFront, featured: true, visual: 'railway',
-    summary: 'The backend behind UK National Railway fare calculation.',
-    description: 'A railway application focused on train fare calculation for the UK National Railway.',
-    detail: 'Built with .NET Core and SQL Server, with SOAP integrations, Linux background services, SQL Server Service Broker and Azure Pipelines.',
+    name: 'ITAL', category: 'Backend & Cloud', company: 'Microsec International Ltd.',
+    type: 'TRANSPORT REVENUE PROTECTION', icon: TrainFront, featured: true, visual: 'railway',
+    summary: 'Revenue protection and penalty notices for train, tram, and bus operators.',
+    description: 'A revenue protection application for government and private train, tram, and bus operators, supporting the issuance of penalty notices to passengers who have not paid the required fare or cannot present a valid ticket.',
+    detail: 'The application supports offline notice issuance and postcode validation using an on-device Post Office address database, allowing staff to work in tunnels and other areas without network connectivity. I contributed as a .NET developer within a multidisciplinary team delivering and supporting the application. The backend stack includes .NET Core, SQL Server, SOAP integrations, Linux background services, SQL Server Service Broker and Azure Pipelines.',
     tags: ['.NET Core', 'SOAP', 'Background services', 'Azure Pipelines'],
   },
   {
-    name: 'GDN ERP', category: 'Enterprise apps', company: 'Golden Infotech Ltd.',
+    name: 'GDN ERP', category: 'Enterprise Apps', company: 'Golden Infotech Ltd.',
     type: 'FINANCE & ERP', icon: Boxes, featured: false, visual: '',
     summary: 'An ERP system for accounting and financial management.',
     description: 'Accounting and financial management software developed at Golden Infotech.',
@@ -48,7 +48,7 @@ const projects = [
     tags: ['ASP.NET MVC', 'AngularJS', 'SQL Server'],
   },
   {
-    name: 'Mail Dispatch Management', category: 'Enterprise apps', company: 'Defense Ministry government project',
+    name: 'Mail Dispatch Management', category: 'Enterprise Apps', company: 'Defense Ministry government project',
     type: 'GOVERNMENT', icon: Mail, featured: false, visual: '',
     summary: 'Organizing branch email dispatch information in one place.',
     description: 'A Mail Dispatch Management System for managing branch email dispatch information.',
@@ -56,7 +56,7 @@ const projects = [
     tags: ['ASP.NET MVC', 'jQuery', 'SQL Server'],
   },
   {
-    name: 'Project Management System', category: 'Enterprise apps', company: 'Defense Ministry government project',
+    name: 'Project Management System', category: 'Enterprise Apps', company: 'Defense Ministry government project',
     type: 'GOVERNMENT', icon: Layers3, featured: false, visual: '',
     summary: 'Making project information and status easier to follow.',
     description: 'An application for tracking project information and status within a government project.',
@@ -171,7 +171,7 @@ function ProjectVisual({ type }: { type: string }) {
           <div className="station station-one" /><div className="station station-two" />
           <div className="station station-three" /><div className="station station-four" />
           <div className="rail-icon"><TrainFront size={32} /></div>
-          <span className="diagram-caption">COMPLEX JOURNEYS. CONNECTED LOGIC.</span>
+          <span className="diagram-caption">REVENUE PROTECTION. ONLINE &amp; OFFLINE.</span>
         </div>
       )}
     </div>
@@ -266,7 +266,7 @@ function App() {
 
         <section id="about" className="section container about-section">
           <div className="section-heading"><span className="section-index">01 / ABOUT & EXPERTISE</span><h2>Good software starts<br />with a solid foundation<span>.</span></h2></div>
-          <div className="about-copy"><p>I'm a software engineer based in Dhaka, Bangladesh, focused on the systems that make products work.</p><p>My experience spans logistics, railway fare calculation, ERP, and government applications. I work across APIs, data, and cloud infrastructure, with an emphasis on maintainable architecture and practical solutions.</p></div>
+          <div className="about-copy"><p>I'm a software engineer based in Dhaka, Bangladesh, focused on the systems that make products work.</p><p>My experience spans logistics, transport revenue protection, ERP, and government applications. I work across APIs, data, and cloud infrastructure, with an emphasis on maintainable architecture and practical solutions.</p></div>
           <div className="expertise-grid">
             <article className="expertise-card"><span className="icon-box"><Server /></span><h3>Backend Engineering</h3><p>Clear interfaces. Maintainable services. Business logic with a place to belong.</p><div className="tags"><span>C#</span><span>ASP.NET Core</span><span>REST APIs</span><span>GraphQL</span><span>SOAP</span></div></article>
             <article className="expertise-card"><span className="icon-box"><Cloud /></span><h3>Cloud & Integration</h3><p>Connecting services and moving changes from development to production.</p><div className="tags"><span>Azure App Service</span><span>CI/CD Pipelines</span><span>Service Bus</span><span>Firebase</span></div></article>

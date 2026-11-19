@@ -39,6 +39,13 @@ test('project filters and expandable descriptions work', async ({ page }) => {
   await expect(xcalibur.locator('.tags')).toContainText('Azure Service Bus')
   await xcalibur.locator('summary').click()
   await expect(xcalibur.locator('.project-details')).toContainText('Azure Service Bus queues, topics and subscriptions')
+  const ital = page.locator('.project-card').filter({ has: page.getByRole('heading', { name: 'ITAL', exact: true }) })
+  await expect(ital.locator('.project-body > p')).toContainText('Revenue protection and penalty notices')
+  await ital.locator('summary').click()
+  await expect(ital.locator('.project-details')).toContainText('government and private train, tram, and bus operators')
+  await expect(ital.locator('.project-details')).toContainText('offline notice issuance and postcode validation')
+  await expect(ital.locator('.project-details')).toContainText('I contributed as a .NET developer')
+  await expect(ital).not.toContainText('fare calculation')
   await expect(page.getByText(/React \(learning\)/)).toBeVisible()
 })
 
