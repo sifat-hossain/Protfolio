@@ -49,6 +49,29 @@ test('project filters and expandable descriptions work', async ({ page }) => {
   await expect(page.getByText(/React \(learning\)/)).toBeVisible()
 })
 
+test('expanding a project does not stretch or open its neighbor', async ({ page }) => {
+  await page.goto('/#work')
+  await page.evaluate(() => document.fonts.ready)
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  const logistics = page.locator('.project-card').filter({ has: page.getByRole('heading', { name: 'Logistics Delivery System', exact: true }) })
+  const ital = page.locator('.project-card').filter({ has: page.getByRole('heading', { name: 'ITAL', exact: true }) })
+  for (const width of [390, 768, 1440]) {
+    await page.setViewportSize({ width, height: 900 })
+    const logisticsHeight = await logistics.evaluate((card) => card.getBoundingClientRect().height)
+    const italHeight = await ital.evaluate((card) => card.getBoundingClientRect().height)
+    await logistics.locator('summary').click()
+    await expect(logistics.locator('details')).toHaveAttribute('open', '')
+    await expect(ital.locator('details')).not.toHaveAttribute('open')
+    expect(await logistics.evaluate((card) => card.getBoundingClientRect().height)).toBeGreaterThan(logisticsHeight)
+    expect(await ital.evaluate((card) => card.getBoundingClientRect().height)).toBeCloseTo(italHeight, 0)
+    await logistics.locator('summary').click()
+    await ital.locator('summary').click()
+    expect(await logistics.evaluate((card) => card.getBoundingClientRect().height)).toBeCloseTo(logisticsHeight, 0)
+    await expect(logistics.locator('details')).not.toHaveAttribute('open')
+    await ital.locator('summary').click()
+  }
+})
+
 test('project text stays readable without clipping at responsive widths', async ({ page }) => {
   await page.goto('/#work')
   await page.locator('.project-details').evaluateAll((details) => {
